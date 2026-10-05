@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from 'react'
 import Dashboard from './Dashboard'
 import Clients from './Clients'
+import Budgets from './Budgets'
+import Equipment from './Equipment'
 import Orders from './Orders'
 import { login } from './services/api'
 import './login.css'
@@ -119,6 +121,12 @@ function App() {
   }
   if (hasStoredUser && route.startsWith('/clientes')) {
     return <Clients onLogout={() => window.location.assign('/')} />
+  }
+  if (hasStoredUser && route.startsWith('/equipamentos')) {
+    return <Equipment onLogout={() => window.location.assign('/')} />
+  }
+  if (hasStoredUser && route.startsWith('/orcamentos')) {
+    return <Budgets onLogout={() => window.location.assign('/')} />
   }
 
   return <LoginPage />
