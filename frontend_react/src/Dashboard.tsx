@@ -129,7 +129,8 @@ function Dashboard({ onLogout }: DashboardProps) {
         <nav className="sidebar-nav">
           <a className="nav-link active" href="/dashboard/" aria-current="page"><span className="nav-glyph">▦</span><span className="nav-link-label">Visão geral</span></a>
           <a className="nav-link" href="/ordens/"><span className="nav-glyph">▤</span><span className="nav-link-label">Ordens de serviço</span></a>
-          {['Clientes', 'Equipamentos', 'Orçamentos', 'Financeiro', 'Relatórios'].map((item) => (
+          <a className="nav-link" href="/clientes/"><span className="nav-glyph">♙</span><span className="nav-link-label">Clientes</span></a>
+          {['Equipamentos', 'Orçamentos', 'Financeiro', 'Relatórios'].map((item) => (
             <button className="nav-link nav-link-disabled" key={item} type="button" title="Módulo ainda não migrado" onClick={() => setNotice(`${item}: módulo ainda em migração para React.`)}><span className="nav-glyph" aria-hidden="true">·</span><span className="nav-link-label">{item}</span></button>
           ))}
           {user?.perfil === 'GERENTE' && <button className="nav-link nav-link-disabled" type="button" onClick={() => setNotice('Usuários: módulo ainda em migração para React.')}><span className="nav-glyph" aria-hidden="true">·</span><span className="nav-link-label">Usuários</span></button>}

@@ -222,7 +222,8 @@ function Orders({ onLogout }: Props) {
         <nav className="sidebar-nav">
           <a className="nav-link" href="/dashboard/"><span className="nav-glyph">▦</span><span className="nav-link-label">Visão geral</span></a>
           <a className="nav-link active" href="/ordens/" aria-current="page"><span className="nav-glyph">▤</span><span className="nav-link-label">Ordens de serviço</span></a>
-          {['Clientes', 'Equipamentos', 'Orçamentos', 'Financeiro', 'Relatórios'].map((item) => <button className="nav-link nav-link-disabled" key={item} type="button" onClick={() => setNotice(`${item}: módulo ainda em migração para React.`)}><span className="nav-glyph">·</span><span className="nav-link-label">{item}</span></button>)}
+          <a className="nav-link" href="/clientes/"><span className="nav-glyph">♙</span><span className="nav-link-label">Clientes</span></a>
+          {['Equipamentos', 'Orçamentos', 'Financeiro', 'Relatórios'].map((item) => <button className="nav-link nav-link-disabled" key={item} type="button" onClick={() => setNotice(`${item}: módulo ainda em migração para React.`)}><span className="nav-glyph">·</span><span className="nav-link-label">{item}</span></button>)}
           {user?.perfil === 'GERENTE' && <button className="nav-link nav-link-disabled" type="button" onClick={() => setNotice('Usuários: módulo ainda em migração para React.')}><span className="nav-glyph">·</span><span className="nav-link-label">Usuários</span></button>}
         </nav>
         <div className="sidebar-spacer" />
