@@ -231,7 +231,7 @@ function Orders({ onLogout }: Props) {
           <a className="nav-link" href="/equipamentos/"><span className="nav-glyph">▣</span><span className="nav-link-label">Equipamentos</span></a>
           <a className="nav-link" href="/orcamentos/"><span className="nav-glyph">▤</span><span className="nav-link-label">Orçamentos</span></a>
           <a className="nav-link" href="/financeiro/"><span className="nav-glyph">◈</span><span className="nav-link-label">Financeiro</span></a>
-          <button className="nav-link nav-link-disabled" type="button" onClick={() => setNotice('Relatórios: módulo ainda em migração para React.')}><span className="nav-glyph">·</span><span className="nav-link-label">Relatórios</span></button>
+          <a className="nav-link" href="/relatorios/"><span className="nav-glyph">▥</span><span className="nav-link-label">Relatórios</span></a>
           {user?.perfil === 'GERENTE' && <button className="nav-link nav-link-disabled" type="button" onClick={() => setNotice('Usuários: módulo ainda em migração para React.')}><span className="nav-glyph">·</span><span className="nav-link-label">Usuários</span></button>}
         </nav>
         <div className="sidebar-spacer" />

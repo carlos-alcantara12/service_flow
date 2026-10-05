@@ -5,6 +5,7 @@ import Budgets from './Budgets'
 import Equipment from './Equipment'
 import Finance from './Finance'
 import Orders from './Orders'
+import Reports from './Reports'
 import { login } from './services/api'
 import './login.css'
 
@@ -131,6 +132,9 @@ function App() {
   }
   if (hasStoredUser && route.startsWith('/financeiro')) {
     return <Finance onLogout={() => window.location.assign('/')} />
+  }
+  if (hasStoredUser && route.startsWith('/relatorios')) {
+    return <Reports onLogout={() => window.location.assign('/')} />
   }
 
   return <LoginPage />

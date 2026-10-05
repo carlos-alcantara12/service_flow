@@ -1,0 +1,27 @@
+.reports-content { width: min(100%, 1480px); margin: 0 auto; padding: 32px; }
+.reports-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.reports-heading .button { flex: 0 0 auto; }
+.reports-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+.report-card { min-width: 0; padding: 18px; border: 1px solid var(--border); border-radius: 8px; background: #fff; box-shadow: 0 1px 2px rgba(35,42,49,.04), 0 4px 14px rgba(35,42,49,.04); }
+.report-label { color: var(--muted); font-size: 11px; font-weight: 600; }
+.report-value { margin-top: 12px; overflow-wrap: anywhere; color: var(--text); font-size: 24px; font-weight: 700; letter-spacing: -.04em; }
+.report-value small { font-size: 12px; font-weight: 500; letter-spacing: 0; }
+.report-value.success { color: var(--success); }
+.report-value.warning { color: var(--warning); }
+.report-value-money { font-size: clamp(17px, 2vw, 23px); }
+.report-note { margin-top: 6px; color: var(--muted); font-size: 10px; }
+.reports-panels { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr); gap: 18px; align-items: start; }
+.reports-panels > .panel { min-width: 0; overflow: hidden; }
+.reports-status-list { padding: 20px; }
+.reports-status-list .progress-row { margin-bottom: 18px; }
+.reports-status-list .progress-row:last-child { margin-bottom: 0; }
+.reports-loading { display: grid; min-height: 220px; place-items: center; }
+.reports-restricted, .reports-error, .reports-errors { margin-bottom: 18px; padding: 12px 14px; border: 1px solid #d8e2eb; border-radius: 7px; color: var(--primary); background: var(--info-soft); font-size: 12px; }
+.reports-restricted { display: flex; flex-direction: column; gap: 4px; }
+.reports-error, .reports-errors { border-color: #efcaca; color: var(--danger); background: var(--danger-soft); }
+.reports-error { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.reports-error button { border: 0; color: inherit; background: transparent; font: inherit; font-weight: 600; text-decoration: underline; cursor: pointer; }
+.reports-errors p { margin: 4px 0; }
+@media (max-width: 900px) { .reports-panels { grid-template-columns: 1fr; } }
+@media (max-width: 820px) { .reports-content { padding: 24px 18px; } }
+@media (max-width: 640px) { .reports-content { padding: 22px 14px; } .reports-heading { flex-direction: column; } .reports-heading .button { align-self: flex-end; } .reports-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; } .report-card { padding: 14px; } .report-value { font-size: 21px; } .report-value-money { font-size: 17px; } }
