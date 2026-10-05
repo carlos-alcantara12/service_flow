@@ -3,6 +3,7 @@ import Dashboard from './Dashboard'
 import Clients from './Clients'
 import Budgets from './Budgets'
 import Equipment from './Equipment'
+import Finance from './Finance'
 import Orders from './Orders'
 import { login } from './services/api'
 import './login.css'
@@ -127,6 +128,9 @@ function App() {
   }
   if (hasStoredUser && route.startsWith('/orcamentos')) {
     return <Budgets onLogout={() => window.location.assign('/')} />
+  }
+  if (hasStoredUser && route.startsWith('/financeiro')) {
+    return <Finance onLogout={() => window.location.assign('/')} />
   }
 
   return <LoginPage />
