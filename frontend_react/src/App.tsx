@@ -1,25 +1,24 @@
 import { useState, type FormEvent } from 'react'
+import Dashboard from './Dashboard'
+import Orders from './Orders'
 import { login } from './services/api'
 import './login.css'
 
-function App() {
+function LoginPage() {
   const [loginName, setLoginName] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError('')
-    setSuccess('')
     setIsSubmitting(true)
 
     try {
       const user = await login({ login: loginName, password })
       localStorage.setItem('serviceflow.user', JSON.stringify(user))
-      setSuccess(`Acesso confirmado. Olá, ${user.nome || user.login}!`)
-      setPassword('')
+      window.location.assign('/dashboard/')
     } catch (requestError) {
       setError(
         requestError instanceof Error
@@ -60,8 +59,6 @@ function App() {
             </p>
 
             {error && <div className="login-message error" role="alert">{error}</div>}
-            {success && <div className="login-message success" role="status">{success}</div>}
-
             <div className="field login-field">
               <label htmlFor="login">Login <span>*</span></label>
               <input
@@ -101,6 +98,26 @@ function App() {
       </section>
     </main>
   )
+}
+
+function App() {
+  const route = window.location.pathname
+  let hasStoredUser = false
+
+  try {
+    hasStoredUser = Boolean(localStorage.getItem('serviceflow.user'))
+  } catch {
+    hasStoredUser = false
+  }
+
+  if (hasStoredUser && route.startsWith('/dashboard')) {
+    return <Dashboard onLogout={() => window.location.assign('/')} />
+  }
+  if (hasStoredUser && route.startsWith('/ordens')) {
+    return <Orders onLogout={() => window.location.assign('/')} />
+  }
+
+  return <LoginPage />
 }
 
 export default App
