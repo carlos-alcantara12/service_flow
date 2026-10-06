@@ -115,6 +115,8 @@ button {
 
 .login-brand-content {
   max-width: 430px;
+  margin: auto;
+  text-align: center;
 }
 
 .brand-lockup {
@@ -144,20 +146,33 @@ button {
 .login-brand-name { display: inline-block; }
 
 .login-brand h1 {
-  margin: 64px 0 16px;
+  margin: 0 0 18px;
   color: #fff;
   font-size: clamp(32px, 4vw, 48px);
   font-weight: 600;
   line-height: 1.08;
   letter-spacing: -.045em;
+  text-align: center;
 }
 
 .login-brand p {
   max-width: 390px;
-  margin: 0;
+  margin: 0 auto;
   color: #c3cad2;
   font-size: 16px;
   line-height: 1.65;
+  text-align: center;
+}
+
+.login-corner-mark {
+  position: absolute;
+  z-index: 10;
+  top: 30px;
+  left: 32px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  font-size: 13px;
 }
 
 .login-brand-footer {

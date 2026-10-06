@@ -65,7 +65,6 @@ function statusTone(status: string) {
 
 function Dashboard({ onLogout }: DashboardProps) {
   const user = useMemo(readStoredUser, [])
-  const firstName = (user?.nome || user?.login || 'equipe').split(' ')[0]
   const [orders, setOrders] = useState<ServiceOrder[]>([])
   const [operational, setOperational] = useState<OperationalReport | null>(null)
   const [financial, setFinancial] = useState<FinancialReport | null>(null)
@@ -158,7 +157,7 @@ function Dashboard({ onLogout }: DashboardProps) {
 
         <main className="dashboard-content">
           {notice && <div className={`dashboard-notice notice-toast${isLeaving ? ' is-leaving' : ''}`} role="status">{notice}<button type="button" onClick={dismissNotice} aria-label="Fechar aviso">×</button></div>}
-          <div className="page-heading"><div><p className="eyebrow">Visão geral</p><h1 className="page-title">Bom dia, {firstName}.</h1><p className="page-description">Acompanhe o que precisa de atenção e mantenha a operação em movimento.</p></div><div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => window.location.assign('/ordens/?novo=1')}>＋ Nova ordem</button></div></div>
+          <div className="page-heading"><div><p className="eyebrow">Visão geral</p><h1 className="page-title">Seja bem vindo(a)</h1><p className="page-description">Acompanhe o que precisa de atenção e mantenha a operação em movimento.</p></div><div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => window.location.assign('/ordens/?novo=1')}>＋ Nova ordem</button></div></div>
 
           {ordersError && <div className="dashboard-error" role="alert">{ordersError}</div>}
 

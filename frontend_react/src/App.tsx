@@ -40,12 +40,9 @@ function LoginPage() {
     <main className="login-page">
       <section className="login-layout" aria-label="Acesso ao ServiceFlow">
         <div className="login-brand">
+          <span className="brand-mark login-corner-mark" aria-label="ServiceFlow">SF</span>
           <div className="login-brand-content">
-            <div className="brand-lockup">
-              <span className="brand-mark" aria-hidden="true">SF</span>
-              <span className="login-brand-name">ServiceFlow</span>
-            </div>
-            <h1>O trabalho flui melhor quando tudo está no lugar.</h1>
+            <h1 className="login-brand-name">ServiceFlow</h1>
             <p>
               Uma visão clara das ordens, clientes e resultados da sua operação
               de serviços.
