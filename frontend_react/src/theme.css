@@ -446,6 +446,28 @@ button:disabled,
   .sidebar.open .sidebar-nav > :nth-child(9) { animation: nav-item-enter 300ms 315ms both; }
 }
 
+/* Transição curta do conteúdo ao navegar entre rotas do mesmo site. */
+@view-transition { navigation: auto; }
+.main-column > main { view-transition-name: module-content; }
+::view-transition-old(module-content) {
+  animation: module-content-out 140ms ease-in both;
+}
+::view-transition-new(module-content) {
+  animation: module-content-in 240ms cubic-bezier(.2, .75, .25, 1) both;
+}
+@keyframes module-content-out {
+  to { transform: translateY(-4px); opacity: 0; }
+}
+@keyframes module-content-in {
+  from { transform: translateY(7px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@supports not (view-transition-name: module-content) {
+  .main-column > main { animation: module-content-in 240ms cubic-bezier(.2, .75, .25, 1) both; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  ::view-transition-old(module-content),
+  ::view-transition-new(module-content) { animation: none !important; }
 }
