@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import useTransientNotice from './hooks/useTransientNotice'
+import ModuleIcon from './components/ModuleIcon'
 import {
   ApiError,
   apiGet,
@@ -128,16 +129,16 @@ function Dashboard({ onLogout }: DashboardProps) {
         <div className="sidebar-brand"><span className="brand-mark">SF</span><span className="sidebar-brand-name">ServiceFlow<small>gestão de serviços</small></span></div>
         <div className="nav-section-label">Operação</div>
         <nav className="sidebar-nav">
-          <a className="nav-link active" href="/dashboard/" aria-current="page"><span className="nav-glyph">▦</span><span className="nav-link-label">Visão geral</span></a>
+          <a className="nav-link active" href="/dashboard/" aria-current="page"><span className="nav-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></span><span className="nav-link-label">Visão geral</span></a>
           <a className="nav-link" href="/ordens/"><span className="nav-glyph">▤</span><span className="nav-link-label">Ordens de serviço</span></a>
-          <a className="nav-link" href="/clientes/"><span className="nav-glyph">♙</span><span className="nav-link-label">Clientes</span></a>
-          <a className="nav-link" href="/equipamentos/"><span className="nav-glyph">▣</span><span className="nav-link-label">Equipamentos</span></a>
-          <a className="nav-link" href="/orcamentos/"><span className="nav-glyph">▤</span><span className="nav-link-label">Orçamentos</span></a>
-          <a className="nav-link" href="/financeiro/"><span className="nav-glyph">◈</span><span className="nav-link-label">Financeiro</span></a>
+          <a className="nav-link" href="/clientes/"><ModuleIcon name="clients" /><span className="nav-link-label">Clientes</span></a>
+          <a className="nav-link" href="/equipamentos/"><ModuleIcon name="equipment" /><span className="nav-link-label">Equipamentos</span></a>
+          <a className="nav-link" href="/orcamentos/"><ModuleIcon name="budgets" /><span className="nav-link-label">Orçamentos</span></a>
+          <a className="nav-link" href="/financeiro/"><ModuleIcon name="finance" /><span className="nav-link-label">Financeiro</span></a>
           {['Relatórios'].map((item) => (
-            <a className="nav-link" key={item} href="/relatorios/"><span className="nav-glyph" aria-hidden="true">▥</span><span className="nav-link-label">{item}</span></a>
+            <a className="nav-link" key={item} href="/relatorios/"><ModuleIcon name="reports" /><span className="nav-link-label">{item}</span></a>
           ))}
-          {user?.perfil === 'GERENTE' && <a className="nav-link" href="/usuarios/"><span className="nav-glyph" aria-hidden="true">⚙</span><span className="nav-link-label">Usuários</span></a>}
+          {user?.perfil === 'GERENTE' && <a className="nav-link" href="/usuarios/"><ModuleIcon name="users" /><span className="nav-link-label">Usuários</span></a>}
         </nav>
         <div className="sidebar-spacer" />
         <div className="sidebar-footer"><div className="sidebar-user"><span className="avatar">{initials || 'SF'}</span><div className="sidebar-user-text"><div className="sidebar-user-name">{user?.nome || user?.login || 'Usuário'}</div><div className="sidebar-user-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div><button className="sidebar-user-menu" type="button" onClick={handleLogout}>Sair</button></div></div>

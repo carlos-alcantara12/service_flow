@@ -422,6 +422,18 @@ button:disabled,
   color: #f1f3f5;
   background: rgba(255, 255, 255, .065);
 }
+.nav-glyph {
+  transform: scale(1);
+  transform-origin: center;
+  transition: transform 190ms cubic-bezier(.2, .8, .2, 1), color 190ms ease, filter 190ms ease;
+}
+.nav-glyph svg, .module-icon { display: block; width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.nav-link:hover .nav-glyph,
+.nav-link:focus-visible .nav-glyph {
+  transform: scale(1.12);
+  color: #c3d9eb;
+  filter: drop-shadow(0 0 5px rgba(145, 184, 223, .48));
+}
 .nav-link:focus-visible {
   outline: 2px solid var(--info);
   outline-offset: 2px;
