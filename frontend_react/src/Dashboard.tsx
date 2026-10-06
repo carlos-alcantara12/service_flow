@@ -49,6 +49,33 @@ function formatMoney(value: number | string | undefined) {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(value || 0))
 }
 
+function AnimatedValue({ value, currency = false }: { value: number | string; currency?: boolean }) {
+  const target = Number(value || 0)
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setCurrent(target)
+      return
+    }
+    let startTime: number | null = null
+    let frame = 0
+    const tick = (time: number) => {
+      if (startTime === null) startTime = time
+      const progress = Math.min((time - startTime) / 780, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCurrent(target * eased)
+      if (progress < 1) frame = window.requestAnimationFrame(tick)
+    }
+    frame = window.requestAnimationFrame(tick)
+    return () => window.cancelAnimationFrame(frame)
+  }, [target])
+
+  return <>{new Intl.NumberFormat('pt-BR', currency
+    ? { style: 'currency', currency: 'BRL' }
+    : { maximumFractionDigits: 0 }).format(current)}</>
+}
+
 function formatDate(value?: string | null) {
   if (!value) return '—'
   const date = new Date(`${value.slice(0, 10)}T12:00:00`)
@@ -157,15 +184,15 @@ function Dashboard({ onLogout }: DashboardProps) {
 
         <main className="dashboard-content">
           {notice && <div className={`dashboard-notice notice-toast${isLeaving ? ' is-leaving' : ''}`} role="status">{notice}<button type="button" onClick={dismissNotice} aria-label="Fechar aviso">×</button></div>}
-          <div className="page-heading"><div><p className="eyebrow">Visão geral</p><h1 className="page-title">Seja bem vindo(a)</h1><p className="page-description">Acompanhe o que precisa de atenção e mantenha a operação em movimento.</p></div><div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => window.location.assign('/ordens/?novo=1')}>＋ Nova ordem</button></div></div>
+          <div className="page-heading"><div><p className="eyebrow">Visão geral</p><h1 className="page-title dashboard-welcome">Seja bem vindo(a)</h1><p className="page-description">Acompanhe o que precisa de atenção e mantenha a operação em movimento.</p></div><div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => window.location.assign('/ordens/?novo=1')}>＋ Nova ordem</button></div></div>
 
           {ordersError && <div className="dashboard-error" role="alert">{ordersError}</div>}
 
           <section className="stats-grid" aria-label="Indicadores da operação">
-            <article className="stat-card"><div className="stat-card-header"><span>Ordens em andamento</span><span className="stat-icon">OS</span></div><div className="stat-value">{operational ? formatNumber(activeOrders) : '—'}</div><div className="stat-meta">{operational ? activeOrders ? `${formatNumber(activeOrders)} em acompanhamento` : 'Sem ordens em andamento' : 'Indicador restrito ao gerente'}</div></article>
-            <article className="stat-card"><div className="stat-card-header"><span>Ordens atrasadas</span><span className="stat-icon alert-icon">!</span></div><div className="stat-value">{operational ? formatNumber(overdue) : '—'}</div><div className={`stat-meta ${operational && overdue ? 'attention' : 'positive'}`}>{operational ? overdue ? 'Requer atenção' : 'Dentro do prazo' : 'Indicador restrito ao gerente'}</div></article>
-            <article className="stat-card"><div className="stat-card-header"><span>Valor recebido</span><span className="stat-icon">R$</span></div><div className="stat-value stat-value-money">{financial ? formatMoney(financial.valor_recebido) : '—'}</div><div className="stat-meta">{financial ? 'Consolidado do período atual' : 'Acesso de gerente necessário'}</div></article>
-            <article className="stat-card"><div className="stat-card-header"><span>Saldo pendente</span><span className="stat-icon">R$</span></div><div className="stat-value stat-value-money">{financial ? formatMoney(financial.saldo_pendente) : '—'}</div><div className="stat-meta attention">{financial ? 'A receber das ordens atuais' : 'Acesso de gerente necessário'}</div></article>
+            <article className="stat-card"><div className="stat-card-header"><span>Ordens em andamento</span><span className="stat-icon">OS</span></div><div className="stat-value">{operational ? <AnimatedValue value={activeOrders} /> : '—'}</div><div className="stat-meta">{operational ? activeOrders ? `${formatNumber(activeOrders)} em acompanhamento` : 'Sem ordens em andamento' : 'Indicador restrito ao gerente'}</div></article>
+            <article className="stat-card"><div className="stat-card-header"><span>Ordens atrasadas</span><span className="stat-icon alert-icon">!</span></div><div className="stat-value">{operational ? <AnimatedValue value={overdue} /> : '—'}</div><div className={`stat-meta ${operational && overdue ? 'attention' : 'positive'}`}>{operational ? overdue ? 'Requer atenção' : 'Dentro do prazo' : 'Indicador restrito ao gerente'}</div></article>
+            <article className="stat-card"><div className="stat-card-header"><span>Valor recebido</span><span className="stat-icon">R$</span></div><div className="stat-value stat-value-money">{financial ? <AnimatedValue value={financial.valor_recebido} currency /> : '—'}</div><div className="stat-meta">{financial ? 'Consolidado do período atual' : 'Acesso de gerente necessário'}</div></article>
+            <article className="stat-card"><div className="stat-card-header"><span>Saldo pendente</span><span className="stat-icon">R$</span></div><div className="stat-value stat-value-money">{financial ? <AnimatedValue value={financial.saldo_pendente} currency /> : '—'}</div><div className="stat-meta attention">{financial ? 'A receber das ordens atuais' : 'Acesso de gerente necessário'}</div></article>
           </section>
 
           <div className="dashboard-grid">
