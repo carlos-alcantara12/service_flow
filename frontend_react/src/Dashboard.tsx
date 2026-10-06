@@ -136,7 +136,7 @@ function Dashboard({ onLogout }: DashboardProps) {
           {['Relatórios'].map((item) => (
             <a className="nav-link" key={item} href="/relatorios/"><span className="nav-glyph" aria-hidden="true">▥</span><span className="nav-link-label">{item}</span></a>
           ))}
-          {user?.perfil === 'GERENTE' && <button className="nav-link nav-link-disabled" type="button" onClick={() => setNotice('Usuários: módulo ainda em migração para React.')}><span className="nav-glyph" aria-hidden="true">·</span><span className="nav-link-label">Usuários</span></button>}
+          {user?.perfil === 'GERENTE' && <a className="nav-link" href="/usuarios/"><span className="nav-glyph" aria-hidden="true">⚙</span><span className="nav-link-label">Usuários</span></a>}
         </nav>
         <div className="sidebar-spacer" />
         <div className="sidebar-footer"><div className="sidebar-user"><span className="avatar">{initials || 'SF'}</span><div className="sidebar-user-text"><div className="sidebar-user-name">{user?.nome || user?.login || 'Usuário'}</div><div className="sidebar-user-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div><button className="sidebar-user-menu" type="button" onClick={handleLogout}>Sair</button></div></div>
@@ -156,7 +156,7 @@ function Dashboard({ onLogout }: DashboardProps) {
 
         <main className="dashboard-content">
           {notice && <div className="dashboard-notice" role="status">{notice}<button type="button" onClick={() => setNotice('')} aria-label="Fechar aviso">×</button></div>}
-          <div className="page-heading"><div><p className="eyebrow">Visão geral</p><h1 className="page-title">Bom dia, {firstName}.</h1><p className="page-description">Acompanhe o que precisa de atenção e mantenha a operação em movimento.</p></div><div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => setNotice('A criação de ordens estará disponível quando o módulo de ordens for migrado.')}>＋ Nova ordem</button></div></div>
+          <div className="page-heading"><div><p className="eyebrow">Visão geral</p><h1 className="page-title">Bom dia, {firstName}.</h1><p className="page-description">Acompanhe o que precisa de atenção e mantenha a operação em movimento.</p></div><div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => window.location.assign('/ordens/?novo=1')}>＋ Nova ordem</button></div></div>
 
           {ordersError && <div className="dashboard-error" role="alert">{ordersError}</div>}
 

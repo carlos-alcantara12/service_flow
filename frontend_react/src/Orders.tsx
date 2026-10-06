@@ -133,7 +133,7 @@ function Orders({ onLogout }: Props) {
 
   useEffect(() => { void loadOrders() }, [loadOrders])
 
-  async function openCreate() {
+  const openCreate = useCallback(async () => {
     setModal('create')
     setModalError('')
     setSaving(false)
@@ -150,7 +150,15 @@ function Orders({ onLogout }: Props) {
     } catch (requestError) {
       setModalError(requestError instanceof Error ? requestError.message : 'Não foi possível carregar clientes e equipamentos.')
     }
-  }
+  }, [onLogout])
+
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (url.searchParams.get('novo') !== '1') return
+    url.searchParams.delete('novo')
+    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`)
+    void openCreate()
+  }, [openCreate])
 
   const openDetail = useCallback(async (orderId: number) => {
     setModal('detail')
@@ -232,7 +240,7 @@ function Orders({ onLogout }: Props) {
           <a className="nav-link" href="/orcamentos/"><span className="nav-glyph">▤</span><span className="nav-link-label">Orçamentos</span></a>
           <a className="nav-link" href="/financeiro/"><span className="nav-glyph">◈</span><span className="nav-link-label">Financeiro</span></a>
           <a className="nav-link" href="/relatorios/"><span className="nav-glyph">▥</span><span className="nav-link-label">Relatórios</span></a>
-          {user?.perfil === 'GERENTE' && <button className="nav-link nav-link-disabled" type="button" onClick={() => setNotice('Usuários: módulo ainda em migração para React.')}><span className="nav-glyph">·</span><span className="nav-link-label">Usuários</span></button>}
+          {user?.perfil === 'GERENTE' && <a className="nav-link" href="/usuarios/"><span className="nav-glyph">⚙</span><span className="nav-link-label">Usuários</span></a>}
         </nav>
         <div className="sidebar-spacer" />
         <div className="sidebar-footer"><div className="sidebar-user"><span className="avatar">{initials || 'SF'}</span><div className="sidebar-user-text"><div className="sidebar-user-name">{user?.nome || user?.login || 'Usuário'}</div><div className="sidebar-user-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div><button className="sidebar-user-menu" type="button" onClick={handleLogout}>Sair</button></div></div>

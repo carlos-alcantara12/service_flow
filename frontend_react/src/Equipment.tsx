@@ -125,7 +125,7 @@ function Equipment({ onLogout }: Props) {
           <a className="nav-link" href="/orcamentos/"><span className="nav-glyph">▤</span><span className="nav-link-label">Orçamentos</span></a>
           <a className="nav-link" href="/financeiro/"><span className="nav-glyph">◈</span><span className="nav-link-label">Financeiro</span></a>
           <a className="nav-link" href="/relatorios/"><span className="nav-glyph">▥</span><span className="nav-link-label">Relatórios</span></a>
-          {user?.perfil === 'GERENTE' && <button className="nav-link nav-link-disabled" type="button" onClick={() => setNotice('Usuários: módulo ainda em migração para React.')}><span className="nav-glyph">·</span><span className="nav-link-label">Usuários</span></button>}
+          {user?.perfil === 'GERENTE' && <a className="nav-link" href="/usuarios/"><span className="nav-glyph">⚙</span><span className="nav-link-label">Usuários</span></a>}
         </nav>
         <div className="sidebar-spacer" />
         <div className="sidebar-footer"><div className="sidebar-user"><span className="avatar">{initials || 'SF'}</span><div className="sidebar-user-text"><div className="sidebar-user-name">{user?.nome || user?.login || 'Usuário'}</div><div className="sidebar-user-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div><button className="sidebar-user-menu" type="button" onClick={handleLogout}>Sair</button></div></div>
