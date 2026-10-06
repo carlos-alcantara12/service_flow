@@ -8,6 +8,7 @@ import {
   type ServiceOrder,
 } from './services/api'
 import './orders.css'
+import useTransientNotice from './hooks/useTransientNotice'
 
 type UserProfile = { nome?: string; login?: string; perfil?: string; perfil_display?: string }
 type Customer = { id: number; nome: string; ativo?: boolean }
@@ -94,7 +95,7 @@ function Orders({ onLogout }: Props) {
   const [situation, setSituation] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
+  const { notice, showNotice: setNotice, dismissNotice, isLeaving } = useTransientNotice()
   const [modal, setModal] = useState<ModalState>(null)
   const [modalError, setModalError] = useState('')
   const [saving, setSaving] = useState(false)
@@ -250,7 +251,7 @@ function Orders({ onLogout }: Props) {
         <header className="topbar"><button className="mobile-menu" type="button" onClick={() => setMenuOpen((open) => !open)} aria-label="Abrir menu">☰</button><div className="breadcrumb"><span>Workspace</span><span aria-hidden="true">›</span><span className="current">Ordens de serviço</span></div><div className="topbar-actions"><div className="topbar-profile"><span className="avatar">{initials || 'SF'}</span><div className="topbar-profile-text"><div className="topbar-profile-name">{user?.nome || user?.login || 'Usuário'}</div><div className="topbar-profile-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div></div></div></header>
 
         <main className="orders-content">
-          {notice && <div className="orders-notice" role="status">{notice}<button type="button" onClick={() => setNotice('')} aria-label="Fechar aviso">×</button></div>}
+          {notice && <div className={`orders-notice notice-toast${isLeaving ? ' is-leaving' : ''}`} role="status">{notice}<button type="button" onClick={dismissNotice} aria-label="Fechar aviso">×</button></div>}
           <div className="page-heading"><div><p className="eyebrow">Workspace</p><h1 className="page-title">Ordens de serviço</h1><p className="page-description">Controle o atendimento, os prazos e a situação de cada serviço.</p></div><div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => void openCreate()}>＋ Nova ordem</button></div></div>
 
           <div className="orders-toolbar">

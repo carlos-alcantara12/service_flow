@@ -82,7 +82,6 @@ function Budgets({ onLogout }: Props) {
   const [status, setStatus] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
   const [selected, setSelected] = useState<Budget | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -144,7 +143,6 @@ function Budgets({ onLogout }: Props) {
         <header className="topbar"><button className="mobile-menu" type="button" onClick={() => setMenuOpen((open) => !open)} aria-label="Abrir menu">☰</button><div className="breadcrumb"><span>Workspace</span><span aria-hidden="true">›</span><span className="current">Orçamentos</span></div><div className="topbar-actions"><div className="topbar-profile"><span className="avatar">{initials || 'SF'}</span><div className="topbar-profile-text"><div className="topbar-profile-name">{user?.nome || user?.login || 'Usuário'}</div><div className="topbar-profile-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div></div></div></header>
 
         <main className="budgets-content">
-          {notice && <div className="budgets-notice" role="status">{notice}<button type="button" onClick={() => setNotice('')} aria-label="Fechar aviso">×</button></div>}
           <div className="page-heading"><div><p className="eyebrow">Workspace</p><h1 className="page-title">Orçamentos</h1><p className="page-description">Acompanhe versões, aprovações e valores dos serviços.</p></div></div>
           <div className="budgets-toolbar"><form className="budgets-filter-form" onSubmit={(event) => { event.preventDefault(); setPage(1); setQuery(queryInput) }}><label className="sr-only" htmlFor="budget-search">Buscar orçamentos</label><input id="budget-search" className="budgets-search" value={queryInput} onChange={(event) => setQueryInput(event.target.value)} placeholder="Buscar por ordem, cliente ou observações"/><button className="button button-secondary" type="submit">Buscar</button><label className="sr-only" htmlFor="budget-status">Filtrar por status</label><select id="budget-status" className="budgets-select" value={status} onChange={(event) => { setStatus(event.target.value); setPage(1) }}><option value="">Todos os status</option>{statuses.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></form><button className="button button-secondary refresh-button" type="button" onClick={() => void loadBudgets()} disabled={loading} aria-label="Atualizar lista">↻ <span>Atualizar</span></button></div>
 

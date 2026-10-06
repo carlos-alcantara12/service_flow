@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import useTransientNotice from './hooks/useTransientNotice'
 import {
   ApiError,
   apiGet,
@@ -69,7 +70,7 @@ function Dashboard({ onLogout }: DashboardProps) {
   const [financial, setFinancial] = useState<FinancialReport | null>(null)
   const [ordersError, setOrdersError] = useState('')
   const [ordersLoading, setOrdersLoading] = useState(true)
-  const [notice, setNotice] = useState('')
+  const { notice, showNotice: setNotice, dismissNotice, isLeaving } = useTransientNotice()
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -155,7 +156,7 @@ function Dashboard({ onLogout }: DashboardProps) {
         </header>
 
         <main className="dashboard-content">
-          {notice && <div className="dashboard-notice" role="status">{notice}<button type="button" onClick={() => setNotice('')} aria-label="Fechar aviso">×</button></div>}
+          {notice && <div className={`dashboard-notice notice-toast${isLeaving ? ' is-leaving' : ''}`} role="status">{notice}<button type="button" onClick={dismissNotice} aria-label="Fechar aviso">×</button></div>}
           <div className="page-heading"><div><p className="eyebrow">Visão geral</p><h1 className="page-title">Bom dia, {firstName}.</h1><p className="page-description">Acompanhe o que precisa de atenção e mantenha a operação em movimento.</p></div><div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => window.location.assign('/ordens/?novo=1')}>＋ Nova ordem</button></div></div>
 
           {ordersError && <div className="dashboard-error" role="alert">{ordersError}</div>}

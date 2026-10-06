@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react
 import { ApiError, apiGet, apiPost, logout as requestLogout, type PageResult } from './services/api'
 import './dashboard.css'
 import './users.css'
+import useTransientNotice from './hooks/useTransientNotice'
 
 type UserRecord = {
   id: number
@@ -50,7 +51,7 @@ function Users({ onLogout }: Props) {
   const [createOpen, setCreateOpen] = useState(false)
   const [saving, setSaving] = useState(false)
   const [formError, setFormError] = useState('')
-  const [notice, setNotice] = useState('')
+  const { notice, showNotice: setNotice, dismissNotice, isLeaving } = useTransientNotice()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const loadUsers = useCallback(async () => {
@@ -154,7 +155,7 @@ function Users({ onLogout }: Props) {
     <div className="main-column">
       <header className="topbar"><button className="mobile-menu" type="button" onClick={() => setMenuOpen((open) => !open)} aria-label="Abrir menu">☰</button><div className="breadcrumb"><span>Workspace</span><span aria-hidden="true">›</span><span className="current">Usuários</span></div><div className="topbar-actions"><div className="topbar-profile"><span className="avatar">{initials || 'SF'}</span><div className="topbar-profile-text"><div className="topbar-profile-name">{user?.nome || user?.login || 'Usuário'}</div><div className="topbar-profile-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div></div></div></header>
       <main className="users-content">
-        {notice && <div className="users-notice" role="status">{notice}<button type="button" onClick={() => setNotice('')} aria-label="Fechar aviso">×</button></div>}
+        {notice && <div className={`users-notice notice-toast${isLeaving ? ' is-leaving' : ''}`} role="status">{notice}<button type="button" onClick={dismissNotice} aria-label="Fechar aviso">×</button></div>}
         <div className="users-heading"><div><p className="eyebrow">Administração</p><h1 className="page-title">Usuários</h1><p className="page-description">Gerencie quem pode acessar e operar o sistema.</p></div><button className="button button-primary" type="button" onClick={() => { setFormError(''); setCreateOpen(true) }}>＋ Novo usuário</button></div>
         {forbidden ? <section className="users-access-denied" role="alert"><strong>Acesso restrito</strong><p>A gestão de usuários está disponível somente para gerentes.</p></section> : <>
           <form className="users-toolbar" onSubmit={(event) => { event.preventDefault(); setPage(1); setSearch(searchInput) }}>

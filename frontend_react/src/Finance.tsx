@@ -49,7 +49,6 @@ function Finance({ onLogout }: Props) {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
   const [selected, setSelected] = useState<Payment | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -109,7 +108,6 @@ function Finance({ onLogout }: Props) {
         <header className="topbar"><button className="mobile-menu" type="button" onClick={() => setMenuOpen((open) => !open)} aria-label="Abrir menu">☰</button><div className="breadcrumb"><span>Workspace</span><span aria-hidden="true">›</span><span className="current">Financeiro</span></div><div className="topbar-actions"><div className="topbar-profile"><span className="avatar">{initials || 'SF'}</span><div className="topbar-profile-text"><div className="topbar-profile-name">{user?.nome || user?.login || 'Usuário'}</div><div className="topbar-profile-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div></div></div></header>
 
         <main className="finance-content">
-          {notice && <div className="finance-notice" role="status">{notice}<button type="button" onClick={() => setNotice('')} aria-label="Fechar aviso">×</button></div>}
           <div className="page-heading"><div><p className="eyebrow">Workspace</p><h1 className="page-title">Financeiro</h1><p className="page-description">Veja pagamentos registrados e o andamento financeiro das ordens.</p></div></div>
           <div className="finance-toolbar"><form className="finance-search-form" onSubmit={(event) => { event.preventDefault(); setQuery(queryInput.trim()) }}><label className="sr-only" htmlFor="finance-search">Buscar pagamentos</label><input id="finance-search" className="finance-search" value={queryInput} onChange={(event) => setQueryInput(event.target.value)} placeholder="Buscar operação, referência, ordem ou responsável"/><button className="button button-secondary" type="submit">Buscar</button></form><button className="button button-secondary refresh-button" type="button" onClick={() => void loadPayments()} disabled={loading} aria-label="Atualizar pagamentos">↻ <span>Atualizar</span></button></div>
 

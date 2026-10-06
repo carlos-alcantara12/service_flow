@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
 import { ApiError, apiGet, apiPost, logout as requestLogout, type PageResult } from './services/api'
 import './clients.css'
+import useTransientNotice from './hooks/useTransientNotice'
 
 type Customer = {
   id: number
@@ -40,7 +41,7 @@ function Clients({ onLogout }: Props) {
   const [activeFilter, setActiveFilter] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
+  const { notice, showNotice: setNotice, dismissNotice, isLeaving } = useTransientNotice()
   const [modal, setModal] = useState<ModalKind>(null)
   const [selected, setSelected] = useState<Customer | null>(null)
   const [modalError, setModalError] = useState('')
@@ -127,7 +128,7 @@ function Clients({ onLogout }: Props) {
         <header className="topbar"><button className="mobile-menu" type="button" onClick={() => setMenuOpen((open) => !open)} aria-label="Abrir menu">☰</button><div className="breadcrumb"><span>Workspace</span><span aria-hidden="true">›</span><span className="current">Clientes</span></div><div className="topbar-actions"><div className="topbar-profile"><span className="avatar">{initials || 'SF'}</span><div className="topbar-profile-text"><div className="topbar-profile-name">{user?.nome || user?.login || 'Usuário'}</div><div className="topbar-profile-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div></div></div></header>
 
         <main className="clients-content">
-          {notice && <div className="clients-notice" role="status">{notice}<button type="button" onClick={() => setNotice('')} aria-label="Fechar aviso">×</button></div>}
+          {notice && <div className={`clients-notice notice-toast${isLeaving ? ' is-leaving' : ''}`} role="status">{notice}<button type="button" onClick={dismissNotice} aria-label="Fechar aviso">×</button></div>}
           <div className="page-heading"><div><p className="eyebrow">Workspace</p><h1 className="page-title">Clientes</h1><p className="page-description">Mantenha os contatos e o histórico dos clientes organizados.</p></div>{canCreate && <div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => { setModalError(''); setModal('create') }}>＋ Novo cliente</button></div>}</div>
 
           <div className="clients-toolbar">

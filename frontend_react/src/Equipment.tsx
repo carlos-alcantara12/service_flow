@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react'
 import { ApiError, apiGet, apiPost, logout as requestLogout, type PageResult } from './services/api'
 import './equipment.css'
+import useTransientNotice from './hooks/useTransientNotice'
 
 type EquipmentRecord = {
   id: number
@@ -39,7 +40,7 @@ function Equipment({ onLogout }: Props) {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
+  const { notice, showNotice: setNotice, dismissNotice, isLeaving } = useTransientNotice()
   const [modal, setModal] = useState<ModalKind>(null)
   const [selected, setSelected] = useState<EquipmentRecord | null>(null)
   const [customers, setCustomers] = useState<Customer[]>([])
@@ -135,7 +136,7 @@ function Equipment({ onLogout }: Props) {
         <header className="topbar"><button className="mobile-menu" type="button" onClick={() => setMenuOpen((open) => !open)} aria-label="Abrir menu">☰</button><div className="breadcrumb"><span>Workspace</span><span aria-hidden="true">›</span><span className="current">Equipamentos</span></div><div className="topbar-actions"><div className="topbar-profile"><span className="avatar">{initials || 'SF'}</span><div className="topbar-profile-text"><div className="topbar-profile-name">{user?.nome || user?.login || 'Usuário'}</div><div className="topbar-profile-role">{user?.perfil_display || user?.perfil || 'Equipe'}</div></div></div></div></header>
 
         <main className="equipment-content">
-          {notice && <div className="equipment-notice" role="status">{notice}<button type="button" onClick={() => setNotice('')} aria-label="Fechar aviso">×</button></div>}
+          {notice && <div className={`equipment-notice notice-toast${isLeaving ? ' is-leaving' : ''}`} role="status">{notice}<button type="button" onClick={dismissNotice} aria-label="Fechar aviso">×</button></div>}
           <div className="page-heading"><div><p className="eyebrow">Workspace</p><h1 className="page-title">Equipamentos</h1><p className="page-description">Consulte os equipamentos vinculados aos clientes e suas ordens.</p></div>{canCreate && <div className="page-heading-actions"><button className="button button-primary" type="button" onClick={() => void openCreate()}>＋ Novo equipamento</button></div>}</div>
 
           <div className="equipment-toolbar"><form className="equipment-filter-form" onSubmit={(event) => { event.preventDefault(); setPage(1); setQuery(queryInput) }}><label className="sr-only" htmlFor="equipment-search">Buscar equipamentos</label><input id="equipment-search" className="equipment-search" value={queryInput} onChange={(event) => setQueryInput(event.target.value)} placeholder="Buscar por categoria, marca, modelo ou série" /><button className="button button-secondary" type="submit">Buscar</button></form><button className="button button-secondary refresh-button" type="button" onClick={() => void loadEquipment()} disabled={loading} aria-label="Atualizar lista">↻ <span>Atualizar</span></button></div>
