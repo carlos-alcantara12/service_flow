@@ -148,6 +148,105 @@ textarea::placeholder { color: var(--faint) !important; }
 .login-form h2 { color: #f1f3f5; }
 .login-form .form-intro { color: var(--muted) !important; }
 
+/* Botões: resposta tátil visual, brilho breve e ripple ao pressionar. */
+button,
+.button,
+a.button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    transform 180ms cubic-bezier(.2, .8, .2, 1),
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+button::before,
+.button::before,
+a.button::before {
+  position: absolute;
+  z-index: 1;
+  inset: -40% auto -40% -75%;
+  width: 42%;
+  transform: skewX(-22deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .22), transparent);
+  content: '';
+  pointer-events: none;
+}
+
+button::after,
+.button::after,
+a.button::after {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, .32) 0, rgba(255, 255, 255, .16) 42%, transparent 72%);
+  content: '';
+  opacity: 0;
+  pointer-events: none;
+}
+
+button:hover:not(:disabled),
+.button:hover:not(:disabled),
+a.button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.07);
+  box-shadow: 0 7px 18px rgba(0, 0, 0, .24);
+}
+
+button:hover:not(:disabled)::before,
+.button:hover:not(:disabled)::before,
+a.button:hover::before {
+  animation: button-sheen 720ms cubic-bezier(.2, .65, .3, 1) both;
+}
+
+button:active:not(:disabled),
+.button:active:not(:disabled),
+a.button:active {
+  transform: translateY(0) scale(.975);
+  filter: brightness(.98);
+  transition-duration: 70ms;
+}
+
+button:active:not(:disabled)::after,
+.button:active:not(:disabled)::after,
+a.button:active::after {
+  animation: button-ripple 480ms ease-out both;
+}
+
+button:focus-visible,
+.button:focus-visible,
+a.button:focus-visible {
+  outline: 2px solid var(--info);
+  outline-offset: 3px;
+}
+
+button:disabled,
+.button:disabled {
+  cursor: not-allowed;
+  transform: none;
+  filter: saturate(.65);
+  box-shadow: none;
+}
+
+@keyframes button-sheen {
+  from { left: -75%; }
+  to { left: 145%; }
+}
+
+@keyframes button-ripple {
+  0% { transform: translate(-50%, -50%) scale(.25); opacity: .85; }
+  100% { transform: translate(-50%, -50%) scale(13); opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
