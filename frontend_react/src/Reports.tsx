@@ -109,9 +109,9 @@ function Reports({ onLogout }: { onLogout: () => void }) {
       <div className="nav-section-label">Operação</div>
       <nav className="sidebar-nav">
         <a className="nav-link" href="/dashboard/"><span className="nav-glyph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-7 9.5-7 9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7Z"/><circle cx="12" cy="12" r="3"/></svg></span><span className="nav-link-label">Visão geral</span></a>
-        <a className="nav-link" href="/ordens/"><span className="nav-glyph">▤</span><span className="nav-link-label">Ordens de serviço</span></a>
         <a className="nav-link" href="/clientes/"><ModuleIcon name="clients" /><span className="nav-link-label">Clientes</span></a>
         <a className="nav-link" href="/equipamentos/"><ModuleIcon name="equipment" /><span className="nav-link-label">Equipamentos</span></a>
+        <a className="nav-link" href="/ordens/"><span className="nav-glyph">▤</span><span className="nav-link-label">Ordens de serviço</span></a>
         <a className="nav-link" href="/orcamentos/"><ModuleIcon name="budgets" /><span className="nav-link-label">Orçamentos</span></a>
         <a className="nav-link" href="/financeiro/"><ModuleIcon name="finance" /><span className="nav-link-label">Financeiro</span></a>
         <a className="nav-link active" href="/relatorios/" aria-current="page"><ModuleIcon name="reports" /><span className="nav-link-label">Relatórios</span></a>
