@@ -15,6 +15,20 @@
 .reports-status-list { padding: 20px; }
 .reports-status-list .progress-row { margin-bottom: 18px; }
 .reports-status-list .progress-row:last-child { margin-bottom: 0; }
+.reports-grid .report-card { animation: reports-card-enter 360ms cubic-bezier(.2, .8, .2, 1) both; }
+.reports-grid .report-card:nth-child(2) { animation-delay: 55ms; }
+.reports-grid .report-card:nth-child(3) { animation-delay: 110ms; }
+.reports-status-list .progress-row:nth-child(2) .progress-fill { animation-delay: 55ms; }
+.reports-status-list .progress-row:nth-child(3) .progress-fill { animation-delay: 100ms; }
+.reports-status-list .progress-row:nth-child(4) .progress-fill { animation-delay: 145ms; }
+.reports-status-list .progress-row:nth-child(5) .progress-fill { animation-delay: 190ms; }
+.reports-status-list .progress-row:nth-child(6) .progress-fill { animation-delay: 235ms; }
+.reports-status-list .progress-row:nth-child(7) .progress-fill { animation-delay: 280ms; }
+.reports-status-list .progress-row:nth-child(8) .progress-fill { animation-delay: 325ms; }
+.reports-status-list .progress-row:nth-child(9) .progress-fill { animation-delay: 370ms; }
+.reports-status-list .progress-fill { transform: scaleX(0); transform-origin: left center; animation: reports-bar-grow 760ms cubic-bezier(.2, .75, .25, 1) both; }
+@keyframes reports-card-enter { from { transform: translateY(9px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes reports-bar-grow { to { transform: scaleX(1); } }
 .reports-loading { display: grid; min-height: 220px; place-items: center; }
 .reports-restricted, .reports-error, .reports-errors { margin-bottom: 18px; padding: 12px 14px; border: 1px solid #d8e2eb; border-radius: 7px; color: var(--primary); background: var(--info-soft); font-size: 12px; }
 .reports-restricted { display: flex; flex-direction: column; gap: 4px; }

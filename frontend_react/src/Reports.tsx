@@ -28,6 +28,30 @@ function money(value: number | string) {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(value || 0))
 }
 function number(value: number | string) { return new Intl.NumberFormat('pt-BR').format(Number(value || 0)) }
+function AnimatedValue({ value, currency = false, decimals = 0 }: { value: number | string; currency?: boolean; decimals?: number }) {
+  const target = Number(value || 0)
+  const [current, setCurrent] = useState(0)
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setCurrent(target)
+      return
+    }
+    let startTime: number | null = null
+    let frame = 0
+    const tick = (time: number) => {
+      if (startTime === null) startTime = time
+      const progress = Math.min((time - startTime) / 780, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      setCurrent(target * eased)
+      if (progress < 1) frame = window.requestAnimationFrame(tick)
+    }
+    frame = window.requestAnimationFrame(tick)
+    return () => window.cancelAnimationFrame(frame)
+  }, [target])
+  return <>{new Intl.NumberFormat('pt-BR', currency
+    ? { style: 'currency', currency: 'BRL' }
+    : { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(current)}</>
+}
 function labelize(value: string) {
   const labels: Record<string, string> = {
     RECEBIDA: 'Recebida', EM_DIAGNOSTICO: 'Em diagnóstico', AGUARDANDO_APROVACAO: 'Aguardando aprovação',
@@ -101,14 +125,14 @@ function Reports({ onLogout }: { onLogout: () => void }) {
         <div className="reports-heading"><div><p className="eyebrow">Análises</p><h1 className="page-title">Relatórios</h1><p className="page-description">Indicadores consolidados para orientar decisões e prioridades.</p></div><button className="button button-secondary" type="button" onClick={() => void loadReports()} disabled={operational.loading || financial.loading}>↻ Atualizar</button></div>
         {(operational.restricted || financial.restricted) && <div className="reports-restricted" role="status"><strong>Acesso restrito</strong><span>Os relatórios estão disponíveis somente para o perfil de gerente.</span></div>}
         <section className="reports-grid" aria-label="Indicadores operacionais">
-          <article className="report-card"><div className="report-label">Ordens atrasadas</div><div className={`report-value ${operational.data?.ordens_atrasadas ? 'warning' : 'success'}`}>{operational.loading ? '…' : operational.data ? number(operational.data.ordens_atrasadas) : operational.restricted ? 'Restrito' : '—'}</div><div className="report-note">Itens fora da previsão de entrega</div></article>
-          <article className="report-card"><div className="report-label">Tempo médio</div><div className="report-value">{operational.loading ? '…' : operational.data ? <>{number(operational.data.tempo_medio_atendimento_dias)} <small>dias</small></> : operational.restricted ? 'Restrito' : '—'}</div><div className="report-note">Entre entrada e conclusão</div></article>
-          <article className="report-card"><div className="report-label">Aguardando retirada</div><div className="report-value">{operational.loading ? '…' : operational.data ? number(operational.data.equipamentos_aguardando_retirada) : operational.restricted ? 'Restrito' : '—'}</div><div className="report-note">Prontas para entrega</div></article>
+          <article className="report-card"><div className="report-label">Ordens atrasadas</div><div className={`report-value ${operational.data?.ordens_atrasadas ? 'warning' : 'success'}`}>{operational.loading ? '…' : operational.data ? <AnimatedValue value={operational.data.ordens_atrasadas} /> : operational.restricted ? 'Restrito' : '—'}</div><div className="report-note">Itens fora da previsão de entrega</div></article>
+          <article className="report-card"><div className="report-label">Tempo médio</div><div className="report-value">{operational.loading ? '…' : operational.data ? <><AnimatedValue value={operational.data.tempo_medio_atendimento_dias} decimals={2} /> <small>dias</small></> : operational.restricted ? 'Restrito' : '—'}</div><div className="report-note">Entre entrada e conclusão</div></article>
+          <article className="report-card"><div className="report-label">Aguardando retirada</div><div className="report-value">{operational.loading ? '…' : operational.data ? <AnimatedValue value={operational.data.equipamentos_aguardando_retirada} /> : operational.restricted ? 'Restrito' : '—'}</div><div className="report-note">Prontas para entrega</div></article>
         </section>
         <section className="reports-grid" aria-label="Indicadores financeiros">
-          <article className="report-card"><div className="report-label">Orçamentos aprovados</div><div className="report-value">{financial.loading ? '…' : financial.data ? number(financial.data.orcamentos_aprovados) : financial.restricted ? 'Restrito' : '—'}</div><div className="report-note">{financial.data ? `${money(financial.data.valor_aprovado)} aprovados` : 'Dados financeiros'}</div></article>
-          <article className="report-card"><div className="report-label">Valor recebido</div><div className="report-value report-value-money">{financial.loading ? '…' : financial.data ? money(financial.data.valor_recebido) : financial.restricted ? 'Restrito' : '—'}</div><div className="report-note">Pagamentos confirmados</div></article>
-          <article className="report-card"><div className="report-label">Saldo pendente</div><div className="report-value report-value-money">{financial.loading ? '…' : financial.data ? money(financial.data.saldo_pendente) : financial.restricted ? 'Restrito' : '—'}</div><div className="report-note">Valores a receber</div></article>
+          <article className="report-card"><div className="report-label">Orçamentos aprovados</div><div className="report-value">{financial.loading ? '…' : financial.data ? <AnimatedValue value={financial.data.orcamentos_aprovados} /> : financial.restricted ? 'Restrito' : '—'}</div><div className="report-note">{financial.data ? `${money(financial.data.valor_aprovado)} aprovados` : 'Dados financeiros'}</div></article>
+          <article className="report-card"><div className="report-label">Valor recebido</div><div className="report-value report-value-money">{financial.loading ? '…' : financial.data ? <AnimatedValue value={financial.data.valor_recebido} currency /> : financial.restricted ? 'Restrito' : '—'}</div><div className="report-note">Pagamentos confirmados</div></article>
+          <article className="report-card"><div className="report-label">Saldo pendente</div><div className="report-value report-value-money">{financial.loading ? '…' : financial.data ? <AnimatedValue value={financial.data.saldo_pendente} currency /> : financial.restricted ? 'Restrito' : '—'}</div><div className="report-note">Valores a receber</div></article>
         </section>
         <div className="reports-panels">
           <section className="panel"><div className="panel-header"><div><h2 className="panel-title">Ordens por situação</h2><p className="panel-subtitle">Distribuição atual do fluxo</p></div></div>
