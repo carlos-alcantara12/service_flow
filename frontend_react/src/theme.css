@@ -130,6 +130,30 @@ textarea::placeholder { color: var(--faint) !important; }
 .finance-row:hover td,
 .users-row:hover td { background: #272c35 !important; }
 
+.data-table tbody tr {
+  animation: table-row-enter 340ms cubic-bezier(.2, .75, .25, 1) both;
+  transition: box-shadow 180ms ease, background-color 180ms ease;
+}
+.data-table tbody tr:nth-child(1) { animation-delay: 20ms; }
+.data-table tbody tr:nth-child(2) { animation-delay: 45ms; }
+.data-table tbody tr:nth-child(3) { animation-delay: 70ms; }
+.data-table tbody tr:nth-child(4) { animation-delay: 95ms; }
+.data-table tbody tr:nth-child(5) { animation-delay: 120ms; }
+.data-table tbody tr:nth-child(6) { animation-delay: 145ms; }
+.data-table tbody tr:nth-child(7) { animation-delay: 170ms; }
+.data-table tbody tr:nth-child(8) { animation-delay: 195ms; }
+.data-table tbody tr:nth-child(9) { animation-delay: 220ms; }
+.data-table tbody tr:nth-child(10) { animation-delay: 245ms; }
+.data-table tbody tr:nth-child(11) { animation-delay: 270ms; }
+.data-table tbody tr:nth-child(12) { animation-delay: 295ms; }
+.data-table tbody tr:hover,
+.data-table tbody tr:focus-within { box-shadow: inset 3px 0 0 var(--primary); }
+.data-table tbody tr:focus-within td { background: #293440 !important; }
+@keyframes table-row-enter {
+  from { transform: translateY(7px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
 .status-neutral { color: #c0c7d0 !important; background: #343a45 !important; }
 .status-info { color: var(--info) !important; background: var(--info-soft) !important; }
 .status-success { color: var(--success) !important; background: var(--success-soft) !important; }
