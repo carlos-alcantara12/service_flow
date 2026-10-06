@@ -43,7 +43,7 @@ function LoginPage() {
           <div className="login-brand-content">
             <div className="brand-lockup">
               <span className="brand-mark" aria-hidden="true">SF</span>
-              <span>ServiceFlow</span>
+              <span className="login-brand-name">ServiceFlow</span>
             </div>
             <h1>O trabalho flui melhor quando tudo está no lugar.</h1>
             <p>

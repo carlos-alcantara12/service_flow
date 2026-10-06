@@ -67,6 +67,7 @@ button {
   border-radius: 16px;
   background: var(--surface);
   box-shadow: var(--shadow-md);
+  animation: login-layout-in 700ms cubic-bezier(.2, .75, .25, 1) both;
 }
 
 .login-brand {
@@ -80,6 +81,19 @@ button {
   background: var(--sidebar);
 }
 
+.login-brand::before {
+  position: absolute;
+  top: 12%;
+  left: 46%;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(92, 133, 167, .28), rgba(54, 77, 101, .12) 38%, transparent 72%);
+  content: "";
+  animation: login-glow-drift 12s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
 .login-brand::after {
   position: absolute;
   right: -80px;
@@ -90,6 +104,7 @@ button {
   border-radius: 50%;
   box-shadow: 0 0 0 38px rgba(255, 255, 255, .025), 0 0 0 76px rgba(255, 255, 255, .025);
   content: "";
+  animation: login-orbit 24s linear infinite;
 }
 
 .login-brand-content,
@@ -108,6 +123,7 @@ button {
   gap: 10px;
   font-weight: 700;
   letter-spacing: -.02em;
+  animation: login-brand-in 650ms 120ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
 .brand-mark {
@@ -121,7 +137,11 @@ button {
   background: var(--primary);
   font-size: 12px;
   letter-spacing: .02em;
+  animation: login-mark-float 4.8s 700ms ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(145, 176, 203, .2);
 }
+
+.login-brand-name { display: inline-block; }
 
 .login-brand h1 {
   margin: 64px 0 16px;
@@ -149,6 +169,7 @@ button {
   display: flex;
   align-items: center;
   padding: 48px;
+  animation: login-form-in 620ms 100ms cubic-bezier(.2, .75, .25, 1) both;
 }
 
 .login-form {
@@ -211,6 +232,36 @@ button {
 
 .login-password-field {
   margin-bottom: 24px;
+  animation-delay: 250ms;
+}
+
+.login-field { animation: login-field-in 420ms 180ms cubic-bezier(.2, .75, .25, 1) both; }
+.login-submit { animation: login-field-in 420ms 320ms cubic-bezier(.2, .75, .25, 1) both; }
+
+@keyframes login-layout-in {
+  from { transform: translateY(14px) scale(.985); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes login-brand-in {
+  from { transform: translateY(8px); opacity: 0; letter-spacing: .08em; }
+  to { transform: translateY(0); opacity: 1; letter-spacing: -.02em; }
+}
+@keyframes login-form-in {
+  from { transform: translateX(10px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes login-field-in {
+  from { transform: translateY(7px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes login-glow-drift {
+  from { transform: translate3d(-10px, 12px, 0) scale(.95); opacity: .6; }
+  to { transform: translate3d(32px, -16px, 0) scale(1.08); opacity: 1; }
+}
+@keyframes login-orbit { to { transform: rotate(360deg); } }
+@keyframes login-mark-float {
+  0%, 100% { transform: translateY(0); box-shadow: 0 0 0 0 rgba(145, 176, 203, .12); }
+  50% { transform: translateY(-3px); box-shadow: 0 0 18px 2px rgba(145, 176, 203, .13); }
 }
 
 .field label {
