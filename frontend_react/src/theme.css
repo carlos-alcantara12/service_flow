@@ -87,6 +87,30 @@ body { min-height: 100vh; }
   background: var(--surface-subtle) !important;
 }
 
+.modal-backdrop,
+.users-backdrop {
+  animation: modal-backdrop-enter 220ms ease-out both;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+.orders-modal,
+.clients-modal,
+.equipment-modal,
+.budget-modal,
+.finance-modal,
+.users-modal {
+  transform-origin: center;
+  animation: modal-enter 320ms cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes modal-backdrop-enter {
+  from { opacity: 0; backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); }
+  to { opacity: 1; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+}
+@keyframes modal-enter {
+  from { transform: translateY(12px) scale(.965); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
 .orders-search,
 .orders-select,
 .orders-modal input,
